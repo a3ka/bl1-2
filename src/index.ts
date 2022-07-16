@@ -43,7 +43,7 @@ app.post('/bloggers', (req: Request, res: Response) => {
     let name = req.body.name
     let youtubeUrl= req.body.youtubeUrl
     let pattern = /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/
-    let youtubeUrlChecked = pattern.test(req.body.youtubeUrl)
+    let youtubeUrlChecked = pattern.test(youtubeUrl)
 
     // if (!name || typeof name !== 'string' || typeof youtubeUrl !== 'string' || !name.trim() ||  name.length > 15
     if (!name || typeof name !== 'string' || typeof youtubeUrl !== 'string' || !name.trim() ||  name.length > 15
@@ -87,7 +87,7 @@ app.put('/bloggers/:bloggerId', (req: Request, res: Response) => {
     let name = req.body.name
     let youtubeUrl= req.body.youtubeUrl
     let pattern = /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/
-    let youtubeUrlChecked = pattern.test(req.body.youtubeUrl.value)
+    let youtubeUrlChecked = pattern.test(youtubeUrl)
 
     if (!name || typeof name !== 'string' || typeof youtubeUrl !== 'string' || !name.trim() ||  name.length > 15
         || youtubeUrl.length > 100 || youtubeUrlChecked === false) {
