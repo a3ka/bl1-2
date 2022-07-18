@@ -19,39 +19,39 @@ const posts = [
         content: 'Content of 1st Post',
         bloggerId: 1,
         bloggerName: 'Alex'
-    },
-    {
-        id: 2,
-        title: '2nd Post',
-        shortDescription: 'Description of 2 post',
-        content: 'Content of 2 Post',
-        bloggerId: 2,
-        bloggerName: 'Sasha'
-    },
-    {
-        id: 3,
-        title: '3 Post',
-        shortDescription: 'Description of 3 post',
-        content: 'Content of 3 Post',
-        bloggerId: 3,
-        bloggerName: 'Serg'
-    },
-    {
-        id: 4,
-        title: '4s Post',
-        shortDescription: 'Description of 4 post',
-        content: 'Content of 4 Post',
-        bloggerId: 4,
-        bloggerName: 'Masha'
-    },
-    {
-        id: 5,
-        title: '5s Post',
-        shortDescription: 'Description of 5 post',
-        content: 'Content of 5 Post',
-        bloggerId: 5,
-        bloggerName: 'Lena'
-    },
+    }
+    // {
+    //     id: 2,
+    //     title: '2nd Post',
+    //     shortDescription: 'Description of 2 post',
+    //     content: 'Content of 2 Post',
+    //     bloggerId: 2,
+    //     bloggerName: 'Sasha'
+    // },
+    // {
+    //     id: 3,
+    //     title: '3 Post',
+    //     shortDescription: 'Description of 3 post',
+    //     content: 'Content of 3 Post',
+    //     bloggerId: 3,
+    //     bloggerName: 'Serg'
+    // },
+    // {
+    //     id: 4,
+    //     title: '4s Post',
+    //     shortDescription: 'Description of 4 post',
+    //     content: 'Content of 4 Post',
+    //     bloggerId: 4,
+    //     bloggerName: 'Masha'
+    // },
+    // {
+    //     id: 5,
+    //     title: '5s Post',
+    //     shortDescription: 'Description of 5 post',
+    //     content: 'Content of 5 Post',
+    //     bloggerId: 5,
+    //     bloggerName: 'Lena'
+    // },
 ]
 
 
@@ -259,7 +259,6 @@ app.post('/posts', (req: Request, res: Response) => {
             bloggerName
         }
 
-        // @ts-ignore
         posts.push(newPost)
         res.status(201).send(newPost)
     }
