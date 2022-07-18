@@ -243,9 +243,10 @@ app.post('/posts', (req: Request, res: Response) => {
             title,
             shortDescription,
             content,
-            bloggerId,
-            bloggerName: 'Nikol'
+            bloggerId
+            // bloggerName: 'Nikol'
         }
+        // @ts-ignore
         posts.push(newPost)
         res.status(201).send(newPost)
     }
@@ -325,4 +326,4 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
 
- 
+
