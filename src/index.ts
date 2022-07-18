@@ -241,10 +241,10 @@ app.post('/posts', (req: Request, res: Response) => {
             errorsMessages.errorsMessages.push({message: "Problem with a BloggerId field", field: "bloggerId"})
         }
 
-        if (bloggerNameErrors) {
-            // @ts-ignore
-            errorsMessages.errorsMessages.push({message: "Problem with a BloggerId field", field: "bloggerName"})
-        }
+        // if (bloggerNameErrors) {
+        //     // @ts-ignore
+        //     errorsMessages.errorsMessages.push({message: "Problem with a BloggerId field", field: "bloggerName"})
+        // }
 
         res.status(400).send(errorsMessages)
         return;
@@ -256,9 +256,10 @@ app.post('/posts', (req: Request, res: Response) => {
             shortDescription,
             content,
             bloggerId,
-            bloggerName
+            // bloggerName
         }
 
+        // @ts-ignore
         posts.push(newPost)
         res.status(201).send(newPost)
     }
