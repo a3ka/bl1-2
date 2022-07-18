@@ -256,7 +256,7 @@ app.post('/posts', (req: Request, res: Response) => {
             shortDescription,
             content,
             bloggerId,
-            // bloggerName
+            bloggerName
         }
 
         // @ts-ignore
