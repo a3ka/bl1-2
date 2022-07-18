@@ -96,12 +96,12 @@ app.post('/bloggers', (req: Request, res: Response) => {
 
         if (nameErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({"message": "Problem with a Name field" ,"field": "Name"})
+            errorsMessages.errorsMessages.push({message: "Problem with a Name field" , field: "name"})
         }
 
         if (youtubeUrlErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({"message": "Problem with a YoutubeUrl field" ,"field": "YoutubeUrl"})
+            errorsMessages.errorsMessages.push({message: "Problem with a YoutubeUrl field" , field: "youtubeUrl"})
         }
 
         res.status(400).send(errorsMessages)
@@ -144,16 +144,16 @@ app.put('/bloggers/:bloggerId', (req: Request, res: Response) => {
 
     if (nameErrors || youtubeUrlErrors) {
 
-        let errorsMessages = {"errorsMessages": []}
+        let errorsMessages = {errorsMessages: []}
 
         if (nameErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({"message": "Problem with a Name field" ,"field": "Name"})
+            errorsMessages.errorsMessages.push({message: "Problem with a Name field", field: "name"})
         }
 
         if (youtubeUrlErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({"message": "Problem with a YoutubeUrl field" ,"field": "YoutubeUrl"})
+            errorsMessages.errorsMessages.push({message: "Problem with a YoutubeUrl field", field: "youtubeUrl"})
         }
 
         res.status(400).send(errorsMessages)
@@ -212,26 +212,26 @@ app.post('/posts', (req: Request, res: Response) => {
 
     if (titleErrors || shortDescriptionErrors || contentErrors || bloggerIdErrors) {
 
-        let errorsMessages = {"errorsMessages": []}
+        let errorsMessages = {errorsMessages: []}
 
         if (titleErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({"message": "Problem with a Title field" ,"field": "Title"})
+            errorsMessages.errorsMessages.push({message: "Problem with a Title field", field: "title"})
         }
 
         if (shortDescriptionErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({"message": "Problem with a shortDescription field" ,"field": "shortDescription"})
+            errorsMessages.errorsMessages.push({message: "Problem with a shortDescription field",  field: "shortDescription"})
         }
 
         if (contentErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({"message": "Problem with a Content field" ,"field": "Content"})
+            errorsMessages.errorsMessages.push({message: "Problem with a Content field", field: "content"})
         }
 
         if (bloggerIdErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({"message": "Problem with a BloggerId field" ,"field": "BloggerId"})
+            errorsMessages.errorsMessages.push({message: "Problem with a BloggerId field", field: "bloggerId"})
         }
 
         res.status(400).send(errorsMessages)
@@ -278,26 +278,26 @@ app.put('/posts/:postId', (req: Request, res: Response) => {
 
     if (titleErrors || shortDescriptionErrors || contentErrors || bloggerIdErrors) {
 
-        let errorsMessages = {"errorsMessages": []}
+        let errorsMessages = {errorsMessages: []}
 
         if (titleErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({"message": "Problem with a Title field" ,"field": "Title"})
+            errorsMessages.errorsMessages.push({message: "Problem with a Title field", field: "title"})
         }
 
         if (shortDescriptionErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({"message": "Problem with a shortDescription field" ,"field": "shortDescription"})
+            errorsMessages.errorsMessages.push({message: "Problem with a shortDescription field", field: "shortDescription"})
         }
 
         if (contentErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({"message": "Problem with a Content field" ,"field": "Content"})
+            errorsMessages.errorsMessages.push({message: "Problem with a Content field", field: "content"})
         }
 
         if (bloggerIdErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({"message": "Problem with a BloggerId field" ,"field": "BloggerId"})
+            errorsMessages.errorsMessages.push({message: "Problem with a BloggerId field", field: "bloggerId"})
         }
 
         res.status(400).send(errorsMessages)
@@ -325,3 +325,4 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
 
+ 
