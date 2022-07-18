@@ -174,7 +174,10 @@ app.put('/bloggers/:bloggerId', (req: Request, res: Response) => {
     }
 })
 
-/// POSTS !!!!!
+
+
+
+/// POSTS !!!!!-----------------------------------------------------------------------------
 
 
 app.get('/posts', (req: Request, res: Response) => {
@@ -204,13 +207,17 @@ app.post('/posts', (req: Request, res: Response) => {
     let shortDescription = req.body.shortDescription
     let content = req.body.content
     let bloggerId = req.body.bloggerId
+    let bloggerName = req.body.bloggerName
+
 
     let titleErrors = !title || typeof title !== 'string' || title.length > 30
     let shortDescriptionErrors = !shortDescription || typeof shortDescription !== 'string' || shortDescription.length > 100
     let contentErrors = !content || typeof content !== 'string' || content.length > 1000
     let bloggerIdErrors = !bloggerId || typeof bloggerId !== "number"
+    let bloggerNameErrors = typeof content !== 'string'
 
-    if (titleErrors || shortDescriptionErrors || contentErrors || bloggerIdErrors) {
+
+    if (titleErrors || shortDescriptionErrors || contentErrors || bloggerIdErrors || bloggerNameErrors) {
 
         let errorsMessages = {errorsMessages: []}
 
@@ -234,6 +241,11 @@ app.post('/posts', (req: Request, res: Response) => {
             errorsMessages.errorsMessages.push({message: "Problem with a BloggerId field", field: "bloggerId"})
         }
 
+        if (bloggerNameErrors) {
+            // @ts-ignore
+            errorsMessages.errorsMessages.push({message: "Problem with a BloggerId field", field: "bloggerName"})
+        }
+
         res.status(400).send(errorsMessages)
         return;
 
@@ -243,10 +255,10 @@ app.post('/posts', (req: Request, res: Response) => {
             title,
             shortDescription,
             content,
-            bloggerId
-            // bloggerName: 'Nikol'
+            bloggerId,
+            bloggerName
         }
-        // @ts-ignore
+
         posts.push(newPost)
         res.status(201).send(newPost)
     }
@@ -271,13 +283,16 @@ app.put('/posts/:postId', (req: Request, res: Response) => {
     let shortDescription = req.body.shortDescription
     let content = req.body.content
     let bloggerId = req.body.bloggerId
+    let bloggerName = req.body.bloggerName
 
     let titleErrors = !title || typeof title !== 'string' || title.length > 30
     let shortDescriptionErrors = !shortDescription || typeof shortDescription !== 'string' || shortDescription.length > 100
     let contentErrors = !content || typeof content !== 'string' || content.length > 1000
     let bloggerIdErrors = !bloggerId || typeof bloggerId !== "number"
+    let bloggerNameErrors = typeof content !== 'string'
 
-    if (titleErrors || shortDescriptionErrors || contentErrors || bloggerIdErrors) {
+
+    if (titleErrors || shortDescriptionErrors || contentErrors || bloggerIdErrors || bloggerNameErrors) {
 
         let errorsMessages = {errorsMessages: []}
 
@@ -301,6 +316,11 @@ app.put('/posts/:postId', (req: Request, res: Response) => {
             errorsMessages.errorsMessages.push({message: "Problem with a BloggerId field", field: "bloggerId"})
         }
 
+        if (bloggerNameErrors) {
+            // @ts-ignore
+            errorsMessages.errorsMessages.push({message: "Problem with a BloggerId field", field: "bloggerName"})
+        }
+
         res.status(400).send(errorsMessages)
         return;
 
@@ -313,6 +333,7 @@ app.put('/posts/:postId', (req: Request, res: Response) => {
             blogPost.shortDescription = shortDescription
             blogPost.content = content
             blogPost.bloggerId = bloggerId
+            blogPost.bloggerName = bloggerName
             res.status(204).send(blogPost);
             // res.send(204);
         } else {
