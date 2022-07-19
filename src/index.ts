@@ -224,10 +224,7 @@ app.post('/posts', (req: Request, res: Response) => {
 
         if (shortDescriptionErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({
-                message: "Problem with a shortDescription field",
-                field: "shortDescription"
-            })
+            errorsMessages.errorsMessages.push({message: "Problem with a shortDescription field",  field: "shortDescription" })
         }
 
         if (contentErrors) {
@@ -280,7 +277,6 @@ app.put('/posts/:postId', (req: Request, res: Response) => {
     let shortDescription = req.body.shortDescription
     let content = req.body.content
     let bloggerId = req.body.bloggerId
-    let bloggerName = req.body.bloggerName
 
     let titleErrors = !title || typeof title !== 'string' || title.length > 30
     let shortDescriptionErrors = !shortDescription || typeof shortDescription !== 'string' || shortDescription.length > 100
@@ -300,10 +296,7 @@ app.put('/posts/:postId', (req: Request, res: Response) => {
 
         if (shortDescriptionErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({
-                message: "Problem with a shortDescription field",
-                field: "shortDescription"
-            })
+            errorsMessages.errorsMessages.push({message: "Problem with a shortDescription field", field: "shortDescription"})
         }
 
         if (contentErrors) {
