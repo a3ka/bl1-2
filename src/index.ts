@@ -178,7 +178,7 @@ app.put('/bloggers/:bloggerId', (req: Request, res: Response) => {
 /// POSTS !!!!!-----------------------------------------------------------------------------
 
 
-const postmapper = (posts:PostType[]) => {
+const postMapper = (posts:PostType[] ) => {
     return posts.map(el => {
         const post:Omit<PostType, 'bloggerName'> = {
             id: el.id,
@@ -194,7 +194,8 @@ const postmapper = (posts:PostType[]) => {
 
 
 app.get('/posts', (req: Request, res: Response) => {
-    res.status(200).send(postmapper(posts));
+    // res.status(200).send(postMapper(posts));
+    res.status(200).send(posts);
 })
 
 app.get('/posts/:postId', (req: Request, res: Response) => {
@@ -206,7 +207,11 @@ app.get('/posts/:postId', (req: Request, res: Response) => {
 
     const post = posts.find(p => p.id === +req.params.postId);
 
+    // @ts-ignore
+    delete post.bloggerName
+
     if (post) {
+        // res.status(200).send(post);
         res.status(200).send(post);
     } else {
         res.send(404);
