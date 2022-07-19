@@ -256,6 +256,8 @@ app.post('/posts', (req: Request, res: Response) => {
     }
 })
 
+// safddsaf
+
 app.delete('/posts/:postId', (req: Request, res: Response) => {
 
     for (let i = 0; i < posts.length; i++) {
