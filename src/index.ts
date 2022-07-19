@@ -299,6 +299,10 @@ app.put('/posts/:postId', (req: Request, res: Response) => {
     let contentErrors = !content || typeof content !== 'string' || content.trim().length === 0 || content.trim().length > 1000
     let bloggerIdErrors = !bloggerId || typeof bloggerId !== "number"
 
+    const blogPost = posts.find(p => p.id === +req.params.postId);
+    // @ts-ignore
+    const blogger = bloggers.find(b => b.id === +blogPost.bloggerId);
+
 
     if (titleErrors || shortDescriptionErrors || contentErrors || bloggerIdErrors ) {
 
@@ -316,7 +320,7 @@ app.put('/posts/:postId', (req: Request, res: Response) => {
             errorsMessages.errorsMessages.push({message: "Problem with a Content field", field: "content"})
         }
 
-        if (bloggerIdErrors) {
+        if (bloggerIdErrors || blogger) {
             errorsMessages.errorsMessages.push({message: "Problem with a BloggerId field", field: "bloggerId"})
         }
 
@@ -324,8 +328,6 @@ app.put('/posts/:postId', (req: Request, res: Response) => {
         return;
 
     } else {
-
-        const blogPost = posts.find(p => p.id === +req.params.postId);
 
         if (blogPost) {
             blogPost.title = title
