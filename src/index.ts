@@ -19,39 +19,39 @@ const posts = [
         content: 'Content of 1st Post',
         bloggerId: 1,
         bloggerName: 'Alex'
-    }
-    // {
-    //     id: 2,
-    //     title: '2nd Post',
-    //     shortDescription: 'Description of 2 post',
-    //     content: 'Content of 2 Post',
-    //     bloggerId: 2,
-    //     bloggerName: 'Sasha'
-    // },
-    // {
-    //     id: 3,
-    //     title: '3 Post',
-    //     shortDescription: 'Description of 3 post',
-    //     content: 'Content of 3 Post',
-    //     bloggerId: 3,
-    //     bloggerName: 'Serg'
-    // },
-    // {
-    //     id: 4,
-    //     title: '4s Post',
-    //     shortDescription: 'Description of 4 post',
-    //     content: 'Content of 4 Post',
-    //     bloggerId: 4,
-    //     bloggerName: 'Masha'
-    // },
-    // {
-    //     id: 5,
-    //     title: '5s Post',
-    //     shortDescription: 'Description of 5 post',
-    //     content: 'Content of 5 Post',
-    //     bloggerId: 5,
-    //     bloggerName: 'Lena'
-    // },
+    },
+    {
+        id: 2,
+        title: '2nd Post',
+        shortDescription: 'Description of 2 post',
+        content: 'Content of 2 Post',
+        bloggerId: 2,
+        bloggerName: 'Sasha'
+    },
+    {
+        id: 3,
+        title: '3 Post',
+        shortDescription: 'Description of 3 post',
+        content: 'Content of 3 Post',
+        bloggerId: 3,
+        bloggerName: 'Serg'
+    },
+    {
+        id: 4,
+        title: '4s Post',
+        shortDescription: 'Description of 4 post',
+        content: 'Content of 4 Post',
+        bloggerId: 4,
+        bloggerName: 'Masha'
+    },
+    {
+        id: 5,
+        title: '5s Post',
+        shortDescription: 'Description of 5 post',
+        content: 'Content of 5 Post',
+        bloggerId: 5,
+        bloggerName: 'Lena'
+    },
 ]
 
 
@@ -96,12 +96,12 @@ app.post('/bloggers', (req: Request, res: Response) => {
 
         if (nameErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({message: "Problem with a Name field" , field: "name"})
+            errorsMessages.errorsMessages.push({message: "Problem with a Name field", field: "name"})
         }
 
         if (youtubeUrlErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({message: "Problem with a YoutubeUrl field" , field: "youtubeUrl"})
+            errorsMessages.errorsMessages.push({message: "Problem with a YoutubeUrl field", field: "youtubeUrl"})
         }
 
         res.status(400).send(errorsMessages)
@@ -175,8 +175,6 @@ app.put('/bloggers/:bloggerId', (req: Request, res: Response) => {
 })
 
 
-
-
 /// POSTS !!!!!-----------------------------------------------------------------------------
 
 
@@ -207,17 +205,15 @@ app.post('/posts', (req: Request, res: Response) => {
     let shortDescription = req.body.shortDescription
     let content = req.body.content
     let bloggerId = req.body.bloggerId
-    let bloggerName = req.body.bloggerName
+    // let bloggerName = req.body.bloggerName
 
 
     let titleErrors = !title || typeof title !== 'string' || title.length > 30
     let shortDescriptionErrors = !shortDescription || typeof shortDescription !== 'string' || shortDescription.length > 100
     let contentErrors = !content || typeof content !== 'string' || content.length > 1000
     let bloggerIdErrors = !bloggerId || typeof bloggerId !== "number"
-    let bloggerNameErrors = typeof content !== 'string'
 
-
-    if (titleErrors || shortDescriptionErrors || contentErrors || bloggerIdErrors || bloggerNameErrors) {
+    if (titleErrors || shortDescriptionErrors || contentErrors || bloggerIdErrors) {
 
         let errorsMessages = {errorsMessages: []}
 
@@ -228,7 +224,10 @@ app.post('/posts', (req: Request, res: Response) => {
 
         if (shortDescriptionErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({message: "Problem with a shortDescription field",  field: "shortDescription"})
+            errorsMessages.errorsMessages.push({
+                message: "Problem with a shortDescription field",
+                field: "shortDescription"
+            })
         }
 
         if (contentErrors) {
@@ -241,26 +240,24 @@ app.post('/posts', (req: Request, res: Response) => {
             errorsMessages.errorsMessages.push({message: "Problem with a BloggerId field", field: "bloggerId"})
         }
 
-        // if (bloggerNameErrors) {
-        //     // @ts-ignore
-        //     errorsMessages.errorsMessages.push({message: "Problem with a BloggerId field", field: "bloggerName"})
-        // }
-
         res.status(400).send(errorsMessages)
         return;
 
     } else {
-        const newPost = {
-            id: +(new Date()),
-            title,
-            shortDescription,
-            content,
-            bloggerId,
-            bloggerName
-        }
+        const blogPost = posts.find(b => b.id === +bloggerId);
+        if (blogPost) {
+            const newPost = {
+                id: +(new Date()),
+                title,
+                shortDescription,
+                content,
+                bloggerId,
+                bloggerName: blogPost.bloggerName
+            }
 
-        posts.push(newPost)
-        res.status(201).send(newPost)
+            posts.push(newPost)
+            res.status(201).send(newPost)
+        }
     }
 })
 
@@ -303,7 +300,10 @@ app.put('/posts/:postId', (req: Request, res: Response) => {
 
         if (shortDescriptionErrors) {
             // @ts-ignore
-            errorsMessages.errorsMessages.push({message: "Problem with a shortDescription field", field: "shortDescription"})
+            errorsMessages.errorsMessages.push({
+                message: "Problem with a shortDescription field",
+                field: "shortDescription"
+            })
         }
 
         if (contentErrors) {
@@ -333,7 +333,7 @@ app.put('/posts/:postId', (req: Request, res: Response) => {
             blogPost.shortDescription = shortDescription
             blogPost.content = content
             blogPost.bloggerId = bloggerId
-            blogPost.bloggerName = bloggerName
+            blogPost.bloggerName = blogPost.bloggerName
             res.status(204).send(blogPost);
             // res.send(204);
         } else {
