@@ -237,8 +237,8 @@ app.post('/posts', (req: Request, res: Response) => {
         return;
 
     } else {
-        const blogPost = posts.find(b => b.id === +bloggerId);
-        if (blogPost) {
+        const blogger = bloggers.find(b => b.id === +bloggerId);
+        if (blogger) {
             const newPost = {
                 id: +(new Date()),
                 title,
@@ -247,7 +247,7 @@ app.post('/posts', (req: Request, res: Response) => {
                 bloggerId,
             }
 
-            posts.push({...newPost, bloggerName: blogPost.bloggerName})
+            posts.push({...newPost, bloggerName: blogger.name})
             res.status(201).send(newPost)
             return;
         }
