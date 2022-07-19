@@ -205,10 +205,12 @@ app.get('/posts/:postId', (req: Request, res: Response) => {
         return;
     }
 
-    const post = posts.find(p => p.id === +req.params.postId);
+    // const post = posts.find(p => p.id === +req.params.postId);
+    const post = []
+    post.push(posts.find(p => p.id === +req.params.postId))
 
     // @ts-ignore
-    delete post.bloggerName
+    // delete post.bloggerName
 
     if (post) {
         // res.status(200).send(post);
