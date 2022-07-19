@@ -11,7 +11,7 @@ const bloggers = [
     {id: 5, name: 'Lena', youtubeUrl: 'https://www.lena.com'},
 ]
 
-const posts = [
+const posts:PostType[] = [
     {
         id: 1,
         title: '1st Post',
@@ -178,8 +178,23 @@ app.put('/bloggers/:bloggerId', (req: Request, res: Response) => {
 /// POSTS !!!!!-----------------------------------------------------------------------------
 
 
+const postmapper = (posts:PostType[]) => {
+    return posts.map(el => {
+        const post:Omit<PostType, 'bloggerName'> = {
+            id: el.id,
+            content: el.content,
+            bloggerId: el.bloggerId,
+            title: el.title,
+            shortDescription: el.shortDescription
+        }
+        return post
+    })
+}
+
+
+
 app.get('/posts', (req: Request, res: Response) => {
-    res.status(200).send(posts);
+    res.status(200).send(postmapper(posts));
 })
 
 app.get('/posts/:postId', (req: Request, res: Response) => {
@@ -345,4 +360,15 @@ type ErrorsMessagesType = {
     message: string
     field: string | null
 }
+
+type PostType = {
+    id: number
+    title: string
+    shortDescription: string
+    content: string
+    bloggerId: number
+    bloggerName: string
+}
+
+
 
