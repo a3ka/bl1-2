@@ -322,7 +322,7 @@ app.put('/posts/:postId', (req: Request, res: Response) => {
             errorsMessages.errorsMessages.push({message: "Problem with a Content field", field: "content"})
         }
 
-        if (bloggerIdErrors || blogger) {
+        if (bloggerIdErrors) {
             errorsMessages.errorsMessages.push({message: "Problem with a BloggerId field", field: "bloggerId"})
         }
 
