@@ -303,8 +303,8 @@ app.put('/posts/:postId', (req: Request, res: Response) => {
     let bloggerIdErrors = !bloggerId || typeof bloggerId !== "number"
 
     // const blogPost = posts.find(p => p.id === +req.params.postId);
-    // const blogger = bloggers.find(b => b.id === +bloggerId);
-
+    const blogger = bloggers.find(b => b.id === bloggerId);
+    // console.log(blogger)
     if (titleErrors || shortDescriptionErrors || contentErrors || bloggerIdErrors ) {
 
         let errorsMessages: ErrorResponseType = { errorsMessages: [] }
@@ -321,7 +321,7 @@ app.put('/posts/:postId', (req: Request, res: Response) => {
             errorsMessages.errorsMessages.push({message: "Problem with a Content field", field: "content"})
         }
 
-        if (bloggerIdErrors) {
+        if (bloggerIdErrors || !blogger) {
             errorsMessages.errorsMessages.push({message: "Problem with a BloggerId field", field: "bloggerId"})
         }
 
