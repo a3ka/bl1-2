@@ -265,9 +265,10 @@ app.post('/posts', (req: Request, res: Response) => {
                 shortDescription,
                 content,
                 bloggerId,
+                bloggerName: blogger.name
             }
 
-            posts.push({...newPost, bloggerName: blogger.name})
+            posts.push(newPost)
             res.status(201).send(newPost)
         } else {
             errorsMessages.errorsMessages.push({message: "Blogger not found", field: "bloggerId"})
