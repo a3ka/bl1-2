@@ -305,7 +305,7 @@ app.put('/posts/:postId', (req: Request, res: Response) => {
     // const blogPost = posts.find(p => p.id === +req.params.postId);
     const blogger = bloggers.find(b => b.id === bloggerId);
     // console.log(blogger)
-    if (titleErrors || shortDescriptionErrors || contentErrors || bloggerIdErrors ) {
+    if (titleErrors || shortDescriptionErrors || contentErrors || bloggerIdErrors || !blogger ) {
 
         let errorsMessages: ErrorResponseType = { errorsMessages: [] }
 
