@@ -1,12 +1,7 @@
 import {Request, Response, Router} from "express";
+import {bloggersRepository} from "../repositories/bloggers-repository";
+import {ErrorResponseType} from "./posts-router";
 
-const bloggers = [
-    {id: 1, name: 'Alex', youtubeUrl: 'https://www.alex.com'},
-    {id: 2, name: 'Sasha', youtubeUrl: 'https://www.sasha.com'},
-    {id: 3, name: 'Serg', youtubeUrl: 'https://www.serg.com'},
-    {id: 4, name: 'Masha', youtubeUrl: 'https://www.masha.com'},
-    {id: 5, name: 'Lena', youtubeUrl: 'https://www.lena.com'},
-]
 
 export const bloggersRouter = Router({})
 
@@ -15,49 +10,42 @@ export const bloggersRouter = Router({})
 // })
 
 bloggersRouter.get('/', (req: Request, res: Response) => {
+    const bloggers = bloggersRepository.getAllBloggers()
     res.status(200).send(bloggers);
 })
 
 bloggersRouter.post('/', (req: Request, res: Response) => {
 
-    let name = req.body.name
-    let youtubeUrl = req.body.youtubeUrl
-    let pattern = /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/
-    let youtubeUrlChecked = pattern.test(youtubeUrl)
-    let nameErrors = !name || typeof name !== 'string' || !name.trim() || name.length > 15
-    let youtubeUrlErrors = typeof youtubeUrl !== 'string' || youtubeUrl.length > 100 || youtubeUrlChecked === false
+    const name = req.body.name
+    const youtubeUrl = req.body.youtubeUrl
+    const pattern = /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/
+    const youtubeUrlChecked = pattern.test(youtubeUrl)
+    const nameErrors = !name || typeof name !== 'string' || !name.trim() || name.length > 15
+    const youtubeUrlErrors = typeof youtubeUrl !== 'string' || youtubeUrl.length > 100 || youtubeUrlChecked === false
 
     if (nameErrors || youtubeUrlErrors) {
 
-        let errorsMessages = {errorsMessages: []}
+        const errorsMessages: ErrorResponseType = {errorsMessages: []}
 
         if (nameErrors) {
-            // @ts-ignore
             errorsMessages.errorsMessages.push({message: "Problem with a Name field", field: "name"})
         }
 
         if (youtubeUrlErrors) {
-            // @ts-ignore
             errorsMessages.errorsMessages.push({message: "Problem with a YoutubeUrl field", field: "youtubeUrl"})
         }
 
         res.status(400).send(errorsMessages)
-        return;
 
     } else {
-        const newBlogger = {
-            id: +(new Date()),
-            name: name,
-            youtubeUrl: youtubeUrl
-        }
-        bloggers.push(newBlogger)
+        const newBlogger = bloggersRepository.createBlogger(name, youtubeUrl)
         res.status(201).send(newBlogger)
     }
 })
 
 bloggersRouter.get('/:bloggerId', (req: Request, res: Response) => {
 
-    const blogger = bloggers.find(b => b.id === +req.params.bloggerId);
+    const blogger = bloggersRepository.getBloggerById(+req.params.bloggerId);
 
     if (blogger) {
         res.status(200).send(blogger);
@@ -68,15 +56,13 @@ bloggersRouter.get('/:bloggerId', (req: Request, res: Response) => {
 
 bloggersRouter.delete('/:bloggerId', (req: Request, res: Response) => {
 
-    for (let i = 0; i < bloggers.length; i++) {
-        if (bloggers[i].id === +req.params.bloggerId) {
-            bloggers.splice(i, 1);
-            res.send(204)
-            return;
-        }
-    }
+    const isDeleted = bloggersRepository.deleteBlogger(+req.params.bloggerId)
 
-    res.send(404)
+    if(isDeleted){
+        res.send(204)
+    } else {
+        res.send(404)
+    }
 })
 
 bloggersRouter.put('/:bloggerId', (req: Request, res: Response) => {
@@ -108,16 +94,15 @@ bloggersRouter.put('/:bloggerId', (req: Request, res: Response) => {
 
     } else {
 
-        const video = bloggers.find(b => b.id === +req.params.bloggerId);
+        const isUpdated = bloggersRepository.updateBlogger(+req.params.bloggerId, name, youtubeUrl)
 
-        if (video) {
-            video.name = req.body.name
-            video.youtubeUrl = req.body.youtubeUrl
-            res.status(204).send(video);
-            // res.send(204);
+        if (isUpdated) {
+            const blogger = bloggersRepository.getBloggerById(+req.params.bloggerId)
+            res.status(204).send(blogger);
         } else {
             res.send(404)
         }
     }
 })
+
 

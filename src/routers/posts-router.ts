@@ -139,9 +139,9 @@ postsRouter.put('/:postId', (req: Request, res: Response) => {
     }
 })
 
-type ErrorsMessagesType = {
+export type ErrorsMessagesType = {
     message: string
     field: string | null
 }
 
-type ErrorResponseType = { errorsMessages: ErrorsMessagesType[] }
+export type ErrorResponseType = { errorsMessages: ErrorsMessagesType[] }

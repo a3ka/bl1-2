@@ -1,10 +1,4 @@
-const bloggers = [
-    {id: 1, name: 'Alex', youtubeUrl: 'https://www.alex.com'},
-    {id: 2, name: 'Sasha', youtubeUrl: 'https://www.sasha.com'},
-    {id: 3, name: 'Serg', youtubeUrl: 'https://www.serg.com'},
-    {id: 4, name: 'Masha', youtubeUrl: 'https://www.masha.com'},
-    {id: 5, name: 'Lena', youtubeUrl: 'https://www.lena.com'},
-]
+import {bloggers} from "./bloggers-repository";
 
 const posts:PostType[] = [
     {
