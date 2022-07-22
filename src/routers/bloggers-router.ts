@@ -8,8 +8,8 @@ import {authMiddleware} from "../middlewares/auth-middleware";
 
 export const bloggersRouter = Router({})
 
-const nameValidation = body('name').trim().isLength({min: 1, max: 15}).isString()
-const youtubeValidation = body('youtubeUrl').trim().isLength({min: 1, max: 100}).isString().isURL()
+const nameValidation = body('name').trim().isLength({min: 1, max: 15}).isString().withMessage('Name should be `min: 1, max: 15` length')
+const youtubeValidation = body('youtubeUrl').trim().isLength({min: 1, max: 100}).isString().isURL().withMessage('youtubeUrl should be `min: 1, max: 100` length')
 
 // bloggersRouter.get('/', (req: Request, res: Response) => {
 //     res.send('Hello World!');
