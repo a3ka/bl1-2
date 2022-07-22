@@ -3,6 +3,7 @@ import {postsRepository} from "../repositories/posts-repository";
 import {body} from "express-validator";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 import {authMiddleware} from "../middlewares/auth-middleware";
+import {bloggerIdExistenceValidationMiddleware} from "../middlewares/bloggerIdExistence-validation-middleware";
 
 
 export const postsRouter = Router({});
@@ -32,6 +33,7 @@ postsRouter.post('/',
 
 postsRouter.put('/:postId',
     authMiddleware,
+    bloggerIdExistenceValidationMiddleware,
     titleValidation,
     shortDescriptionValidation,
     contentValidation,
