@@ -3,6 +3,7 @@ import {body} from "express-validator";
 import {bloggersRepository} from "../repositories/bloggers-repository";
 import {ErrorResponseType} from "./posts-router";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
+import {authMiddleware} from "../middlewares/auth-middleware";
 
 
 export const bloggersRouter = Router({})
@@ -21,6 +22,7 @@ bloggersRouter.get('/', (req: Request, res: Response) => {
 
 
 bloggersRouter.post('/',
+    authMiddleware,
     nameValidation,
     youtubeValidation,
     inputValidationMiddleware,
@@ -31,6 +33,7 @@ bloggersRouter.post('/',
     })
 
 bloggersRouter.put('/:bloggerId',
+    authMiddleware,
     nameValidation,
     youtubeValidation,
     inputValidationMiddleware,
@@ -57,7 +60,10 @@ bloggersRouter.get('/:bloggerId', (req: Request, res: Response) => {
     }
 })
 
-bloggersRouter.delete('/:bloggerId', (req: Request, res: Response) => {
+bloggersRouter.delete('/:bloggerId',
+    authMiddleware,
+    // inputValidationMiddleware,
+    (req: Request, res: Response) => {
 
     const isDeleted = bloggersRepository.deleteBlogger(+req.params.bloggerId)
 
