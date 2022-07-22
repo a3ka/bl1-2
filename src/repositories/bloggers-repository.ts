@@ -6,7 +6,6 @@ export const bloggers = [
     {id: 5, name: 'Lena', youtubeUrl: 'https://www.lena.com'},
 ]
 
-
 export const bloggersRepository = {
     getAllBloggers () {
         return bloggers;
