@@ -8,10 +8,10 @@ import {bloggerIdExistenceValidationMiddleware} from "../middlewares/bloggerIdEx
 
 export const postsRouter = Router({});
 
-const titleValidation = body('name').trim().isLength({min: 1, max: 30}).isString()
-const shortDescriptionValidation = body('name').trim().isLength({min: 1, max: 100}).isString()
-const contentValidation = body('name').trim().isLength({min: 1, max: 1000}).isString()
-const bloggerIdValidation = body('name').trim().isNumeric()
+const titleValidation = body('title').trim().isLength({min: 1, max: 30}).isString().withMessage('Title should be `min: 1, max: 30` length')
+const shortDescriptionValidation = body('shortDescription').trim().isLength({min: 1, max: 100}).isString()
+const contentValidation = body('content').trim().isLength({min: 1, max: 1000}).isString()
+const bloggerIdValidation = body('bloggerId').trim().isNumeric()
 
 
 postsRouter.get('/', (req: Request, res: Response) => {
