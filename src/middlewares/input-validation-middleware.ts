@@ -3,13 +3,15 @@ import {validationResult} from "express-validator";
 
 export const inputValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const errors:any = validationResult(req);
-    let errorsMessages:any =  []
+    let errorsMessages:any =  [{}]
 
     for (let i = 0; i < errors.length; i++) {
         Object.keys(errors[i]).forEach(key => {
             let value = errors[i][key];
 
-            errorsMessages[i].push({})
+            if(i !== 0) {
+                errorsMessages.push({})
+            }
 
             if(key === 'msg') {
                 errorsMessages[i].message = value
