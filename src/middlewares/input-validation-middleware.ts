@@ -7,14 +7,14 @@ export const inputValidationMiddleware = (req: Request, res: Response, next: Nex
 
     for (let i = 0; i < errors.length; i++) {
         Object.keys(errors[i]).forEach(key => {
-            let value = errors[0][key];
+            let value = errors[i][key];
 
-            errorsMessages[0].push({})
+            errorsMessages[i].push({})
 
             if(key === 'msg') {
-                errorsMessages[0].message = value
+                errorsMessages[i].message = value
             } else if (key === 'param') {
-                errorsMessages[0].field = value
+                errorsMessages[i].field = value
             } else {
                 return
             }
