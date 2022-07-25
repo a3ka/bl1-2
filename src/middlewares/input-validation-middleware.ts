@@ -15,10 +15,10 @@ export const inputValidationMiddleware = (req: Request, res: Response, next: Nex
             if(errorsMessages[0].field === errorsMessages[1].field) {
                 return errorsMessages[0]
             } else {
-                return [errorsMessages]
+                return errorsMessages
             }
         } else {
-            return errorsMessages
+            return [errorsMessages]
         }
     }
 
