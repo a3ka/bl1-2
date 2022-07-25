@@ -1,4 +1,4 @@
-export const bloggers = [
+export let bloggers = [
     {id: 1, name: 'Alex', youtubeUrl: 'https://www.alex.com'},
     {id: 2, name: 'Sasha', youtubeUrl: 'https://www.sasha.com'},
     {id: 3, name: 'Serg', youtubeUrl: 'https://www.serg.com'},
@@ -27,13 +27,14 @@ export const bloggersRepository = {
     },
 
     deleteBlogger (bloggerId: number) {
-        for (let i = 0; i < bloggers.length; i++) {
-            if (bloggers[i].id === bloggerId) {
-                bloggers.splice(i, 1);
+        let bloggerCount = bloggers.length
+
+        bloggers = bloggers.filter(b => b.id !== bloggerId)
+
+            if (bloggerCount > bloggers.length) {
                 return true;
             } else {
                 return false;
-            }
         }
     },
 

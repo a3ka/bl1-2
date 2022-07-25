@@ -1,6 +1,6 @@
 import {bloggers} from "./bloggers-repository";
 
-const posts:PostType[] = [
+let posts:PostType[] = [
     {
         id: 1,
         title: '1st Post',
@@ -107,13 +107,24 @@ export const postsRepository = {
     },
 
     deletePost (postId: number) {
-        for (let i = 0; i < posts.length; i++) {
-            if (posts[i].id === postId) {
-                posts.splice(i, 1);
-                return true;
-            } else {
-                return false;
-            }
+        // for (let i = 0; i < posts.length; i++) {
+        //     if (posts[i].id === postId) {
+        //         posts.splice(i, 1);
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // }
+
+        let postCount = posts.length
+
+        posts = posts.filter(b => b.id !== postId)
+
+        if (postCount > posts.length) {
+            return true;
+        } else {
+            return false;
         }
+
     }
 }

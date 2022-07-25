@@ -29,7 +29,12 @@ postsRouter.post('/',
     inputValidationMiddleware,
     (req: Request, res: Response) => {
         const newPost = postsRepository.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
-        res.status(201).send(newPost)
+
+        if(newPost) {
+            res.status(201).send(newPost)
+        } else {
+            res.send(400)
+        }
     })
 
 postsRouter.put('/:postId',
