@@ -13,6 +13,8 @@ const shortDescriptionValidation = body('shortDescription').trim().isLength({min
 const contentValidation = body('content').trim().isLength({min: 1, max: 1000}).isString()
 const bloggerIdValidation = body('bloggerId').isNumeric()
 
+const bloggerIdErrorsMessage = { errorsMessages: [{ message: "wrong blogerId", field: "bloggerId" }] }
+
 
 postsRouter.get('/', (req: Request, res: Response) => {
     const posts = postsRepository.getAllPosts()
@@ -33,7 +35,7 @@ postsRouter.post('/',
         if(newPost) {
             res.status(201).send(newPost)
         } else {
-            res.send(400)
+            res.status(400).send(bloggerIdErrorsMessage)
         }
     })
 
