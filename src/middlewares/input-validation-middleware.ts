@@ -17,6 +17,8 @@ export const inputValidationMiddleware = (req: Request, res: Response, next: Nex
             } else {
                 return errorsMessages
             }
+        } else {
+            return errorsMessages
         }
     }
 
