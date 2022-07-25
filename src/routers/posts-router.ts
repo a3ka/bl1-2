@@ -21,7 +21,7 @@ postsRouter.get('/', (req: Request, res: Response) => {
 
 postsRouter.post('/',
     authMiddleware,
-    bloggerIdExistenceValidationMiddleware,
+    // bloggerIdExistenceValidationMiddleware,
     titleValidation,
     shortDescriptionValidation,
     contentValidation,

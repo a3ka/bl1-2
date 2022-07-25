@@ -28,7 +28,7 @@ bloggersRouter.get('/', (req: Request, res: Response) => {
 
 bloggersRouter.post('/',
     authMiddleware,
-    bloggerIdExistenceValidationMiddleware,
+    // bloggerIdExistenceValidationMiddleware,
     nameValidation,
     youtubeValidation,
     inputValidationMiddleware,
