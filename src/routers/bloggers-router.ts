@@ -4,6 +4,7 @@ import {bloggersRepository} from "../repositories/bloggers-repository";
 import {ErrorResponseType} from "./posts-router";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 import {authMiddleware} from "../middlewares/auth-middleware";
+import {bloggerIdExistenceValidationMiddleware} from "../middlewares/bloggerIdExistence-validation-middleware";
 
 
 export const bloggersRouter = Router({})
@@ -27,6 +28,7 @@ bloggersRouter.get('/', (req: Request, res: Response) => {
 
 bloggersRouter.post('/',
     authMiddleware,
+    bloggerIdExistenceValidationMiddleware,
     nameValidation,
     youtubeValidation,
     inputValidationMiddleware,

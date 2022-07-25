@@ -4,7 +4,6 @@ import {validationResult} from "express-validator";
 export const inputValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
 
-    // const errorsMessages = errors.array().map((error) => ({message: error.msg, field: error.param}))
     const errorsMessages = errors.array().map((error) => ({message: error.msg, field: error.param}))
 
     // let errorsMessages:any =  [{}]
