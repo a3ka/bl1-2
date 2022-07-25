@@ -2,33 +2,34 @@ import {NextFunction, Request, Response} from "express";
 import {validationResult} from "express-validator";
 
 export const inputValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const errors:any = validationResult(req);
-    let errorsMessages:any =  [{}]
+    const errors = validationResult(req);
 
-    for (let i = 0; i < errors.length; i++) {
-        Object.keys(errors[i]).forEach(key => {
-            let value = errors[i][key];
+    const errorsMessages = errors.array().map((error) => ({message: error.msg, field: error.param}))
 
-            if(i !== 0) {
-                errorsMessages.push({})
-            }
-
-            if(key === 'msg') {
-                errorsMessages[i].message = value
-            } else if (key === 'param') {
-                errorsMessages[i].field = value
-            } else {
-                return
-            }
-
-            // console.log(`${key}: ${value}`);
-        });
-    }
+    // let errorsMessages:any =  [{}]
+    // for (let i = 0; i < errors.length; i++) {
+    //     Object.keys(errors[i]).forEach(key => {
+    //         let value = errors[i][key];
+    //
+    //         if(i !== 0) {
+    //             errorsMessages.push({})
+    //         }
+    //
+    //         if(key === 'msg') {
+    //             errorsMessages[i].message = value
+    //         } else if (key === 'param') {
+    //             errorsMessages[i].field = value
+    //         } else {
+    //             return
+    //         }
+    //
+    //         // console.log(`${key}: ${value}`);
+    //     });
+    // }
 
 
     if (!errors.isEmpty()) {
-        // res.status(400).json({ errorsMessages: errorsMessages.array() });
-        res.status(400).send({ errorsMessages: errorsMessages });
+        res.status(400).json({ errorsMessages: errorsMessages});
     } else {
         next()
     }
