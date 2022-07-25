@@ -10,30 +10,18 @@ export const inputValidationMiddleware = (req: Request, res: Response, next: Nex
     console.log(errors[0])
     console.log(errorsMessages)
 
-    // let errorsMessages:any =  [{}]
-    // for (let i = 0; i < errors.length; i++) {
-    //     Object.keys(errors[i]).forEach(key => {
-    //         let value = errors[i][key];
-    //
-    //         if(i !== 0) {
-    //             errorsMessages.push({})
-    //         }
-    //
-    //         if(key === 'msg') {
-    //             errorsMessages[i].message = value
-    //         } else if (key === 'param') {
-    //             errorsMessages[i].field = value
-    //         } else {
-    //             return
-    //         }
-    //
-    //         // console.log(`${key}: ${value}`);
-    //     });
-    // }
-
+    const getErrors = (errorsMessages: any) => {
+        if(errorsMessages.length > 1) {
+            if(errorsMessages[0].field === errorsMessages[1].field) {
+                return errorsMessages[0]
+            } else {
+                return errorsMessages
+            }
+        }
+    }
 
     if (!errors.isEmpty()) {
-        res.status(400).send({ errorsMessages: errorsMessages[0]});
+        res.status(400).send({ errorsMessages: getErrors(errorsMessages)});
         // res.status(400).json({ errorsMessages: errorsMessages});
     } else {
         next()
