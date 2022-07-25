@@ -25,10 +25,8 @@ bloggersRouter.get('/', (req: Request, res: Response) => {
     res.status(200).send(bloggers);
 })
 
-
 bloggersRouter.post('/',
     authMiddleware,
-    // bloggerIdExistenceValidationMiddleware,
     nameValidation,
     youtubeValidation,
     inputValidationMiddleware,

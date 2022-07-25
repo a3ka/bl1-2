@@ -3,8 +3,12 @@ import {validationResult} from "express-validator";
 
 export const inputValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
-    console.log(errors)
+
     const errorsMessages = errors.array().map((error) => ({message: error.msg, field: error.param}))
+
+    // @ts-ignore
+    console.log(errors[0])
+    console.log(errorsMessages)
 
     // let errorsMessages:any =  [{}]
     // for (let i = 0; i < errors.length; i++) {
@@ -29,7 +33,7 @@ export const inputValidationMiddleware = (req: Request, res: Response, next: Nex
 
 
     if (!errors.isEmpty()) {
-        res.status(400).send({ errorsMessages: errorsMessages});
+        res.status(400).send({ errorsMessages: errorsMessages[0]});
         // res.status(400).json({ errorsMessages: errorsMessages});
     } else {
         next()
