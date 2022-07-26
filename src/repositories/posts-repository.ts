@@ -1,4 +1,4 @@
-import {bloggers} from "./bloggers-repository";
+import {bloggers} from "./bloggers-local-repository";
 
 let posts:PostType[] = [
     {

@@ -1,5 +1,5 @@
 import {Request, Response, Router} from "express";
-import {postsRepository} from "../repositories/posts-repository";
+import {postsRepository} from "../repositories/posts-db-repository";
 import {body} from "express-validator";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 import {authMiddleware} from "../middlewares/auth-middleware";
@@ -16,8 +16,8 @@ const bloggerIdValidation = body('bloggerId').isNumeric()
 const bloggerIdErrorsMessage = { errorsMessages: [{ message: "wrong blogerId", field: "bloggerId" }] }
 
 
-postsRouter.get('/', (req: Request, res: Response) => {
-    const posts = postsRepository.getAllPosts()
+postsRouter.get('/', async (req: Request, res: Response) => {
+    const posts = await postsRepository.getAllPosts()
     res.status(200).send(posts);
 })
 
@@ -28,10 +28,10 @@ postsRouter.post('/',
     contentValidation,
     bloggerIdValidation,
     inputValidationMiddleware,
-    (req: Request, res: Response) => {
-        const newPost = postsRepository.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
+    async (req: Request, res: Response) => {
+        const newPost = await postsRepository.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
 
-        if(newPost) {
+        if (newPost) {
             res.status(201).send(newPost)
         } else {
             res.status(400).send(bloggerIdErrorsMessage)
@@ -46,27 +46,26 @@ postsRouter.put('/:postId',
     contentValidation,
     bloggerIdValidation,
     inputValidationMiddleware,
-    (req: Request, res: Response) => {
+    async (req: Request, res: Response) => {
 
-        const isUpdated = postsRepository.updatePost(+req.params.postId, req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
+        const isUpdated = await postsRepository.updatePost(+req.params.postId, req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
 
         if (isUpdated) {
-            const blogPost = postsRepository.getPostById(+req.params.postId)
+            const blogPost = await postsRepository.getPostById(+req.params.postId)
             res.status(204).send(blogPost);
-            // res.send(204);
         } else {
             res.send(404)
         }
     })
 
-postsRouter.get('/:postId', (req: Request, res: Response) => {
+postsRouter.get('/:postId', async (req: Request, res: Response) => {
 
     if (typeof +req.params.postId !== "number") {
         res.send(400);
         return;
     }
 
-    const post = postsRepository.getPostById(+req.params.postId)
+    const post = await postsRepository.getPostById(+req.params.postId)
 
     if (post) {
         res.status(200).send(post);
@@ -75,9 +74,9 @@ postsRouter.get('/:postId', (req: Request, res: Response) => {
     }
 })
 
-postsRouter.delete('/:postId', authMiddleware, (req: Request, res: Response) => {
+postsRouter.delete('/:postId', authMiddleware, async (req: Request, res: Response) => {
 
-    const isDeleted = postsRepository.deletePost(+req.params.postId)
+    const isDeleted = await postsRepository.deletePost(+req.params.postId)
 
     if (isDeleted) {
         res.send(204)
@@ -86,9 +85,5 @@ postsRouter.delete('/:postId', authMiddleware, (req: Request, res: Response) => 
     }
 })
 
-export type ErrorsMessagesType = {
-    message: string
-    field: string | null
-}
 
-export type ErrorResponseType = { errorsMessages: ErrorsMessagesType[] }
+

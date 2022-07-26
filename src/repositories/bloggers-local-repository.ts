@@ -6,7 +6,7 @@ export let bloggers = [
     {id: 5, name: 'Lena', youtubeUrl: 'https://www.lena.com'},
 ]
 
-export const bloggersRepository = {
+export const bloggersLocalRepository = {
     getAllBloggers () {
         return bloggers;
     },
