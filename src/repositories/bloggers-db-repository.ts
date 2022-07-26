@@ -10,12 +10,8 @@ export const bloggersRepository = {
         // return __bloggers;
     },
 
-    async createBlogger (name: string, youtubeUrl: string): Promise<BloggersType> {
-        const newBlogger = {
-            id: +(new Date()),
-            name,
-            youtubeUrl
-        }
+    async createBlogger (newBlogger: BloggersType): Promise<BloggersType> {
+
         const result = await bloggersCollection.insertOne(newBlogger)
         // __bloggers.push(newBlogger)
         return newBlogger;

@@ -5,25 +5,14 @@ import {bloggersRepository} from "./bloggers-db-repository";
 
 export const postsRepository = {
     async getAllPosts (): Promise<PostType[]> {
-        return client.db("socialNetwork").collection<PostType>("posts").find({}).toArray()
+        return postCollection.find({}).toArray()
     },
 
-    async createPost (title: string, shortDescription: string, content: string, bloggerId: number): Promise<PostType | undefined> {
-        // const blogger = __bloggers.find(b => b.id === +bloggerId);
-        const blogger = await bloggersRepository.getBloggerById(bloggerId)
-        if (blogger) {
-            const newPost = {
-                id: +(new Date()),
-                title,
-                shortDescription,
-                content,
-                bloggerId,
-                bloggerName: blogger.name
-            }
+    async createPost (newPost: PostType): Promise<PostType | undefined> {
 
             const result = await postCollection.insertOne(newPost)
             return newPost
-        }
+
     },
 
     async getPostById (postId: number): Promise<PostType | null> {

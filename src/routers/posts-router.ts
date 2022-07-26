@@ -1,5 +1,5 @@
 import {Request, Response, Router} from "express";
-import {postsRepository} from "../repositories/posts-db-repository";
+import {postsService} from "../domain/posts-service";
 import {body} from "express-validator";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 import {authMiddleware} from "../middlewares/auth-middleware";
@@ -17,7 +17,7 @@ const bloggerIdErrorsMessage = { errorsMessages: [{ message: "wrong blogerId", f
 
 
 postsRouter.get('/', async (req: Request, res: Response) => {
-    const posts = await postsRepository.getAllPosts()
+    const posts = await postsService.getAllPosts()
     res.status(200).send(posts);
 })
 
@@ -29,7 +29,7 @@ postsRouter.post('/',
     bloggerIdValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
-        const newPost = await postsRepository.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
+        const newPost = await postsService.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
 
         if (newPost) {
             res.status(201).send(newPost)
@@ -48,10 +48,10 @@ postsRouter.put('/:postId',
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
 
-        const isUpdated = await postsRepository.updatePost(+req.params.postId, req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
+        const isUpdated = await postsService.updatePost(+req.params.postId, req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
 
         if (isUpdated) {
-            const blogPost = await postsRepository.getPostById(+req.params.postId)
+            const blogPost = await postsService.getPostById(+req.params.postId)
             res.status(204).send(blogPost);
         } else {
             res.send(404)
@@ -65,7 +65,7 @@ postsRouter.get('/:postId', async (req: Request, res: Response) => {
         return;
     }
 
-    const post = await postsRepository.getPostById(+req.params.postId)
+    const post = await postsService.getPostById(+req.params.postId)
 
     if (post) {
         res.status(200).send(post);
@@ -76,7 +76,7 @@ postsRouter.get('/:postId', async (req: Request, res: Response) => {
 
 postsRouter.delete('/:postId', authMiddleware, async (req: Request, res: Response) => {
 
-    const isDeleted = await postsRepository.deletePost(+req.params.postId)
+    const isDeleted = await postsService.deletePost(+req.params.postId)
 
     if (isDeleted) {
         res.send(204)
