@@ -1,42 +1,57 @@
-import {bloggersCollection, BloggersType, client} from "./db";
+import {bloggersCollection, BloggersType, client, postCollection, PostType} from "./db";
 
 
 
 export const bloggersRepository = {
 
-    async getAllBloggers (): Promise<BloggersType[] | undefined > {
-
+    async getAllBloggers(): Promise<BloggersType[] | undefined> {
         return bloggersCollection.find({}).toArray()
-        // return __bloggers;
     },
 
-    async createBlogger (newBlogger: BloggersType): Promise<BloggersType> {
-
+    async createBlogger(newBlogger: BloggersType): Promise<BloggersType> {
         const result = await bloggersCollection.insertOne(newBlogger)
-        // __bloggers.push(newBlogger)
         return newBlogger;
     },
 
-    async getBloggerById (bloggerId: number): Promise<BloggersType | null>  {
+    async getBloggerById(bloggerId: number): Promise<BloggersType | null> {
         const blogger: BloggersType | null = await bloggersCollection.findOne({id: bloggerId})
-
-        // const blogger = __bloggers.find(b => b.id === bloggerId);
         return blogger;
     },
 
-    async deleteBlogger (bloggerId: number): Promise<boolean> {
+    async updateBlogger(bloggerId: number, name: string, youtubeUrl: string): Promise<boolean> {
+        const result = await bloggersCollection.updateOne({id: bloggerId}, {$set: {name: name, youtubeUrl: youtubeUrl}})
+        return result.matchedCount === 1
+    },
 
+    async deleteBlogger(bloggerId: number): Promise<boolean> {
         const result = await bloggersCollection.deleteOne({id: bloggerId})
-
         return result.deletedCount === 1
     },
 
-    async updateBlogger (bloggerId: number, name: string, youtubeUrl: string): Promise<boolean> {
+    async getPostsByBloggerId(bloggerId: number, pageNumber: number, pageSize: number): Promise<PostsOfBloggerType | null> {
 
-        // const blogger = __bloggers.find(b => b.id === bloggerId);
-        const result = await bloggersCollection.updateOne({id: bloggerId}, {$set: {name: name, youtubeUrl: youtubeUrl}})
+        const postsCount = await postCollection.count({bloggerId})
+        const pagesCount = Math.ceil(postsCount / pageSize)
+        const posts: PostType[] | PostType = await postCollection.find({bloggerId}).toArray()
 
-        return result.matchedCount === 1
+        const result = {
+            pagesCount: pagesCount,
+            page: pageNumber,
+            pageSize,
+            totalCount: postsCount,
+            items: posts
+        }
+
+        // @ts-ignore
+        return result
 
     }
 }
+
+export type PostsOfBloggerType = {
+        pagesCount: number
+        page: number
+        pageSize: number
+        totalCount: number
+        items: [ PostType | PostType[] ]
+    }

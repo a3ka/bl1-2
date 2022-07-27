@@ -4,16 +4,17 @@ import {body} from "express-validator";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 import {authMiddleware} from "../middlewares/auth-middleware";
 import {bloggerIdExistenceValidationMiddleware} from "../middlewares/bloggerIdExistence-validation-middleware";
+import {fieldsValidationMiddleware} from "../middlewares/fields-validation-middleware";
 
 
 export const postsRouter = Router({});
 
-const titleValidation = body('title').trim().isLength({min: 1, max: 30}).isString()
-const shortDescriptionValidation = body('shortDescription').trim().isLength({min: 1, max: 100}).isString()
-const contentValidation = body('content').trim().isLength({min: 1, max: 1000}).isString()
-const bloggerIdValidation = body('bloggerId').isNumeric()
+// const titleValidation = body('title').trim().isLength({min: 1, max: 30}).isString()
+// const shortDescriptionValidation = body('shortDescription').trim().isLength({min: 1, max: 100}).isString()
+// const contentValidation = body('content').trim().isLength({min: 1, max: 1000}).isString()
+// const bloggerIdValidation = body('bloggerId').isNumeric()
 
-const bloggerIdErrorsMessage = { errorsMessages: [{ message: "wrong blogerId", field: "bloggerId" }] }
+// const bloggerIdErrorsMessage = { errorsMessages: [{ message: "wrong blogerId", field: "bloggerId" }] }
 
 
 postsRouter.get('/', async (req: Request, res: Response) => {
@@ -23,10 +24,10 @@ postsRouter.get('/', async (req: Request, res: Response) => {
 
 postsRouter.post('/',
     authMiddleware,
-    titleValidation,
-    shortDescriptionValidation,
-    contentValidation,
-    bloggerIdValidation,
+    fieldsValidationMiddleware.titleValidation,
+    fieldsValidationMiddleware.shortDescriptionValidation,
+    fieldsValidationMiddleware.contentValidation,
+    fieldsValidationMiddleware.bloggerIdValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
         const newPost = await postsService.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
@@ -34,17 +35,17 @@ postsRouter.post('/',
         if (newPost) {
             res.status(201).send(newPost)
         } else {
-            res.status(400).send(bloggerIdErrorsMessage)
+            res.status(404).send(fieldsValidationMiddleware.bloggerIdErrorsMessage)
         }
     })
 
 postsRouter.put('/:postId',
     authMiddleware,
     bloggerIdExistenceValidationMiddleware,
-    titleValidation,
-    shortDescriptionValidation,
-    contentValidation,
-    bloggerIdValidation,
+    fieldsValidationMiddleware.titleValidation,
+    fieldsValidationMiddleware.shortDescriptionValidation,
+    fieldsValidationMiddleware.contentValidation,
+    fieldsValidationMiddleware.bloggerIdValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
 

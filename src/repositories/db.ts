@@ -1,5 +1,14 @@
 import {MongoClient} from 'mongodb'
 
+const dotenv = require("dotenv");
+dotenv.config();
+
+export type BloggersType = {
+    id: number
+    name: string
+    youtubeUrl: string
+}
+
 export type PostType = {
     id: number
     title: string
@@ -9,14 +18,13 @@ export type PostType = {
     bloggerName: string
 }
 
-export type BloggersType = {
-    id: number
-    name: string
-    youtubeUrl: string
-}
 
-const mongoUri = process.env.MongoURI || "mongodb+srv://alexk:123qweasd@cluster0.lapbhyv.mongodb.net/?retryWrites=true&w=majority"
 
+
+
+const mongoUri = process.env.MongoURI
+
+// @ts-ignore
 export const client = new MongoClient(mongoUri)
 
 const db = client.db("socialNetwork")
