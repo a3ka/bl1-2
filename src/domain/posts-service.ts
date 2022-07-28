@@ -6,8 +6,20 @@ import {BloggersExtendedType, PostsOfBloggerType, PostType} from "../repositorie
 
 
 export const postsService = {
-    async getAllPosts (pageNumber: number = 1, pageSize:number = 10): Promise<PostsOfBloggerType | undefined | null> {
-        return await postsRepository.getAllPosts(pageNumber, pageSize)
+    async getAllPosts (pageNumber: number = 1, pageSize:number = 10): Promise<{}> {
+
+        const postsDb = await postsRepository.getAllPosts(pageNumber, pageSize)
+        // @ts-ignore
+        const posts = {...postsDb}
+
+        // @ts-ignore
+        for (let i = 0; i < posts.items.length; i++) {
+            // @ts-ignore
+            delete posts.items[i]._id
+        }
+
+        return posts
+
     },
 
     async createPost (title: string, shortDescription: string, content: string, bloggerId: number): Promise<PostType | undefined> {

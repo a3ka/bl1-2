@@ -36,7 +36,8 @@ export type PostsOfBloggerType = {
 
 
 
-const mongoUri = process.env.MongoURI
+
+const mongoUri = process.env.MongoURI || "mongodb+srv://alexk:123qweasd@cluster0.lapbhyv.mongodb.net/?retryWrites=true&w=majority"
 
 // @ts-ignore
 export const client = new MongoClient(mongoUri)
