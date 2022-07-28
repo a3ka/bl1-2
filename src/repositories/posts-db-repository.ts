@@ -1,11 +1,24 @@
 // import {__bloggers} from "./bloggers-db-repository";
-import {client, postCollection, PostType} from "./db";
+import {bloggersCollection, BloggersType, client, postCollection, PostsOfBloggerType, PostType} from "./db";
 import {bloggersRepository} from "./bloggers-db-repository";
 
 
 export const postsRepository = {
-    async getAllPosts (): Promise<PostType[]> {
-        return postCollection.find({}).toArray()
+    async getAllPosts (pageNumber: number, pageSize:number): Promise<PostsOfBloggerType | undefined | null> {
+
+        const postsCount = await postCollection.count({})
+        const pagesCount = Math.ceil(postsCount / pageSize)
+        const posts: PostType[] | PostType = await postCollection.find({}).toArray()
+
+        const result = {
+            pagesCount: pagesCount,
+            page: pageNumber,
+            pageSize,
+            totalCount: postsCount,
+            items: posts
+        }
+        // @ts-ignore
+        return result
     },
 
     async createPost (newPost: PostType): Promise<PostType | undefined> {

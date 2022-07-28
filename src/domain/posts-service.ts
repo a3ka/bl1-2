@@ -1,12 +1,13 @@
 
 import {bloggersRepository} from "../repositories/bloggers-db-repository";
 import {postsRepository} from "../repositories/posts-db-repository";
-import {PostType} from "../repositories/db";
+import {BloggersExtendedType, PostsOfBloggerType, PostType} from "../repositories/db";
+
 
 
 export const postsService = {
-    async getAllPosts (): Promise<PostType[]> {
-        return await postsRepository.getAllPosts()
+    async getAllPosts (pageNumber: number = 1, pageSize:number = 10): Promise<PostsOfBloggerType | undefined | null> {
+        return await postsRepository.getAllPosts(pageNumber, pageSize)
     },
 
     async createPost (title: string, shortDescription: string, content: string, bloggerId: number): Promise<PostType | undefined> {

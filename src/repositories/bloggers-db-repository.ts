@@ -7,15 +7,6 @@ import {
     PostType
 } from "./db";
 
-// const getDbCollectionParams = async (pageNumber: number, pageSize: number, itemCount: number) => {
-//
-//     const pagesCount = Math.ceil(itemCount / pageSize)
-//     const bloggers: BloggersType[] | BloggersType = await bloggersCollection.find({}).toArray()
-//
-//     return [pagesCount, bloggers]
-//
-// }
-
 
 
 export const bloggersRepository = {

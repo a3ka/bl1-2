@@ -7,8 +7,6 @@ export const bloggersService = {
 
     async getAllBloggers(pageNumber: number = 1, pageSize:number = 10): Promise<BloggersExtendedType | undefined | null> {
         return await bloggersRepository.getAllBloggers(pageNumber, pageSize)
-
-
     },
 
     async createBlogger(name: string, youtubeUrl: string): Promise<BloggersType> {
