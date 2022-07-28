@@ -1,12 +1,14 @@
-import {bloggersRepository, PostsOfBloggerType} from "../repositories/bloggers-db-repository";
-import {BloggersType, PostType} from "../repositories/db";
+import {bloggersRepository} from "../repositories/bloggers-db-repository";
+import {BloggersExtendedType, BloggersType, PostsOfBloggerType, PostType} from "../repositories/db";
 import {postsRepository} from "../repositories/posts-db-repository";
 
 
 export const bloggersService = {
 
-    async getAllBloggers(): Promise<BloggersType[] | undefined> {
-        return await bloggersRepository.getAllBloggers()
+    async getAllBloggers(pageNumber: number = 1, pageSize:number = 10): Promise<BloggersExtendedType | undefined | null> {
+        return await bloggersRepository.getAllBloggers(pageNumber, pageSize)
+
+
     },
 
     async createBlogger(name: string, youtubeUrl: string): Promise<BloggersType> {

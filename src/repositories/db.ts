@@ -9,6 +9,14 @@ export type BloggersType = {
     youtubeUrl: string
 }
 
+export type BloggersExtendedType = {
+    pagesCount: number
+    page: number
+    pageSize: number
+    totalCount: number
+    items: [ BloggersType | BloggersType[] ]
+}
+
 export type PostType = {
     id: number
     title: string
@@ -18,7 +26,13 @@ export type PostType = {
     bloggerName: string
 }
 
-
+export type PostsOfBloggerType = {
+    pagesCount: number
+    page: number
+    pageSize: number
+    totalCount: number
+    items: [ PostType | PostType[] ]
+}
 
 
 

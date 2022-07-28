@@ -15,7 +15,7 @@ export const bloggersRouter = Router({})
 
 bloggersRouter.get('/',
     async (req: Request, res: Response) => {
-        const bloggers = await bloggersService.getAllBloggers()
+        const bloggers = await bloggersService.getAllBloggers(req.body.pageNumber, req.body.pageSize)
         res.status(200).send(bloggers);
     }
 )
@@ -72,8 +72,6 @@ bloggersRouter.delete('/:bloggerId',
 )
 
 bloggersRouter.get('/:bloggerId/posts', async (req: Request, res: Response) => {
-
-    console.log(req.params.bloggerId)
 
     const posts = await bloggersService.getPostsByBloggerId(+req.params.bloggerId, req.body.pageNumber, req.body.pageSize);
         if (posts) {
