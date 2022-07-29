@@ -28,11 +28,11 @@ function omit_Id(obj:any) {
 
 export const bloggersService = {
 
-    async getAllBloggers(pageNumber: number = 1, pageSize:number = 10): Promise<BloggersType> {
+    async getAllBloggers(pageNumber: number = 1, pageSize:number = 10): Promise<BloggersExtendedType | undefined | null> {
 
         const bloggersDb = await bloggersRepository.getAllBloggers(pageNumber, pageSize)
-        const bloggers = omit_Id(bloggersDb)
-        return bloggers
+        // const bloggers = omit_Id(bloggersDb)
+        return bloggersDb
     },
 
     async createBlogger(name: string, youtubeUrl: string): Promise<BloggersType> {
@@ -42,14 +42,14 @@ export const bloggersService = {
             youtubeUrl
         }
         const createdBloggerDb = await bloggersRepository.createBlogger(newBlogger)
-        const createdBlogger = omit_Id(createdBloggerDb)
-        return createdBlogger;
+        // const createdBlogger = omit_Id(createdBloggerDb)
+        return createdBloggerDb;
     },
 
     async getBloggerById(bloggerId: number): Promise<BloggersType | null> {
         const bloggerDb = await bloggersRepository.getBloggerById(bloggerId);
-        const blogger = omit_Id(bloggerDb)
-        return blogger
+        // const blogger = omit_Id(bloggerDb)
+        return bloggerDb
     },
 
     async updateBlogger(bloggerId: number, name: string, youtubeUrl: string): Promise<boolean> {
@@ -60,10 +60,10 @@ export const bloggersService = {
         return bloggersRepository.deleteBlogger(bloggerId)
     },
 
-    async getPostsByBloggerId(bloggerId: number, pageNumber: number = 1, pageSize:number = 10): Promise<{}> {
+    async getPostsByBloggerId(bloggerId: number, pageNumber: number = 1, pageSize:number = 10): Promise<PostsOfBloggerType | null> {
         const postsDb = await bloggersRepository.getPostsByBloggerId(bloggerId, pageNumber, pageSize);
-        const posts = omit_Id(postsDb)
-        return posts
+        // const posts = omit_Id(postsDb)
+        return postsDb
     },
 
     async createPostByBloggerId (bloggerId: number, title: string, shortDescription: string, content: string) {
