@@ -36,7 +36,7 @@ export const bloggersRepository = {
         const blogger = await bloggersCollection.find({id: newBlogger.id}, {projection: {_id: 0}}).toArray()
 
         // @ts-ignore
-        return blogger;
+        return blogger[0];
     },
 
     async getBloggerById(bloggerId: number): Promise<BloggersType | null> {
