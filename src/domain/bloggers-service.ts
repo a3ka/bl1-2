@@ -78,8 +78,8 @@ export const bloggersService = {
                 bloggerName: blogger.name
             }
             const createdPostDb = await postsRepository.createPost(newPost)
-            const createdPost = omit_Id(createdPostDb)
-            return createdPost
+            // const createdPost = omit_Id(createdPostDb)
+            return createdPostDb
         }
     }
 }

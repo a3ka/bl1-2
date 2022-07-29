@@ -1,11 +1,9 @@
-import {Request, Response, Router} from "express";
-import {body} from "express-validator";
+import {NextFunction, Request, Response, Router} from "express";
 import {bloggersService} from "../domain/bloggers-service";
 import {inputValidationMiddleware} from "../middlewares/input-validation-middleware";
 import {authMiddleware} from "../middlewares/auth-middleware";
-import {postsService} from "../domain/posts-service";
-import {postsRouter} from "./posts-router";
 import {fieldsValidationMiddleware} from "../middlewares/fields-validation-middleware";
+import {postsRepository} from "../repositories/posts-db-repository";
 
 export const bloggersRouter = Router({})
 
@@ -73,7 +71,7 @@ bloggersRouter.delete('/:bloggerId',
 
 bloggersRouter.get('/:bloggerId/posts', async (req: Request, res: Response) => {
 
-    const posts = await bloggersService.getPostsByBloggerId(+req.params.bloggerId, req.body.pageNumber, req.body.pageSize);
+        const posts = await bloggersService.getPostsByBloggerId(+req.params.bloggerId, req.body.pageNumber, req.body.pageSize);
         if (posts) {
             res.status(200).send(posts);
         } else {
@@ -84,13 +82,22 @@ bloggersRouter.get('/:bloggerId/posts', async (req: Request, res: Response) => {
 
 bloggersRouter.post('/:bloggerId/posts',
     authMiddleware,
+
+    async (req: Request, res: Response, next: NextFunction) => {
+        const blogger = await postsRepository.isBlogger(+req.params.bloggerId);
+        if (!blogger) {
+            res.status(404).send({errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]});
+        } else {
+            next()
+        }
+    },
+
     fieldsValidationMiddleware.titleValidation,
     fieldsValidationMiddleware.shortDescriptionValidation,
     fieldsValidationMiddleware.contentValidation,
     inputValidationMiddleware,
-    async (req: Request, res: Response) => {
 
-        console.log(req.params.bloggerId)
+    async (req: Request, res: Response) => {
 
         const newPost = await bloggersService.createPostByBloggerId(+req.params.bloggerId, req.body.title, req.body.shortDescription, req.body.content)
 

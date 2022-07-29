@@ -1,6 +1,7 @@
 // import {__bloggers} from "./bloggers-db-repository";
 import {bloggersCollection, BloggersType, client, postCollection, PostsOfBloggerType, PostType} from "./db";
 import {bloggersRepository} from "./bloggers-db-repository";
+import {bloggers} from "./bloggers-local-repository";
 
 
 export const postsRepository = {
@@ -55,5 +56,17 @@ export const postsRepository = {
         //     return false;
         // }
 
+    },
+
+    async isBlogger (bloggerId: number) {
+
+        const blogger: BloggersType | null = await bloggersCollection.findOne({id: bloggerId}, {projection: {_id: 0}})
+        return blogger;
+
+        if (blogger) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
