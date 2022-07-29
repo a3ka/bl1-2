@@ -22,10 +22,10 @@ export const postsRepository = {
     },
 
     async createPost (newPost: PostType): Promise<PostType | undefined> {
-
-            const result = await postCollection.insertOne(newPost)
-            return newPost
-
+        const result = await postCollection.insertOne(newPost)
+        const post = await postCollection.find({id: newPost.id}, {projection: {_id: 0}}).toArray()
+        // @ts-ignore
+        return post[0]
     },
 
     async getPostById (postId: number): Promise<PostType | null> {
@@ -34,9 +34,7 @@ export const postsRepository = {
     },
 
     async updatePost (postId: number, title: string, shortDescription: string, content: string, bloggerId: number): Promise<boolean>  {
-
         const result = await postCollection.updateOne({id: postId}, {$set: {title, shortDescription, content, bloggerId}})
-
         return result.matchedCount === 1
 
     },
