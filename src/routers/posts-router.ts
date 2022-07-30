@@ -5,6 +5,8 @@ import {inputValidationMiddleware} from "../middlewares/input-validation-middlew
 import {authMiddleware} from "../middlewares/auth-middleware";
 import {bloggerIdExistenceValidationMiddleware} from "../middlewares/bloggerIdExistence-validation-middleware";
 import {fieldsValidationMiddleware} from "../middlewares/fields-validation-middleware";
+import {bloggersRepository} from "../repositories/bloggers-db-repository";
+import {bloggersService} from "../domain/bloggers-service";
 
 
 export const postsRouter = Router({});
@@ -35,19 +37,26 @@ postsRouter.post('/',
         if (newPost) {
             res.status(201).send(newPost)
         } else {
-            res.status(404).send({ errorsMessages: [{ message: "wrong blogerId", field: "bloggerId" }]})
+            res.status(404).send(fieldsValidationMiddleware.bloggerIdErrorsMessage)
         }
     })
 
 postsRouter.put('/:postId',
     authMiddleware,
-    bloggerIdExistenceValidationMiddleware,
+    // bloggerIdExistenceValidationMiddleware,
     fieldsValidationMiddleware.titleValidation,
     fieldsValidationMiddleware.shortDescriptionValidation,
     fieldsValidationMiddleware.contentValidation,
     fieldsValidationMiddleware.bloggerIdValidation,
     inputValidationMiddleware,
     async (req: Request, res: Response) => {
+
+
+        const blogger = await bloggersRepository.isBlogger(+req.body.bloggerId);
+        if (!blogger) {
+            res.status(404).send(fieldsValidationMiddleware.bloggerIdErrorsMessage);
+            return
+        }
 
         const isUpdated = await postsService.updatePost(+req.params.postId, req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
 

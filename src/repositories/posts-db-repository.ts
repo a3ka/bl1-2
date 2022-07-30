@@ -58,12 +58,12 @@ export const postsRepository = {
 
     },
 
-    async isBlogger (bloggerId: number) {
+    async isPost (postId: number) {
 
-        const blogger: BloggersType | null = await bloggersCollection.findOne({id: bloggerId}, {projection: {_id: 0}})
-        return blogger;
+        const post: PostType | null = await postCollection.findOne({id: postId}, {projection: {_id: 0}})
+        return post;
 
-        if (blogger) {
+        if (post) {
             return true;
         } else {
             return false;

@@ -17,9 +17,7 @@ export const inputValidationMiddleware = (req: Request, res: Response, next: Nex
 
 
 
-    // @ts-ignore
-    console.log(errors)
-    console.log(errorsMessages)
+
 
 
     // for (let i = 0; i < errorsMessages.length; i++) {

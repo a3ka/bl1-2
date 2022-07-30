@@ -10,7 +10,7 @@ export const fieldsValidationMiddleware = {
     contentValidation: body('content').trim().isLength({min: 1, max: 1000}).isString(),
     bloggerIdValidation: body('bloggerId').isNumeric(),
 
-    bloggerIdErrorsMessage: { errorsMessages: [{ message: "wrong blogerId", field: "bloggerId" }] }
+    bloggerIdErrorsMessage: { errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}] }
 
 
 }

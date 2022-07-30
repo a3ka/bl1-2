@@ -4,6 +4,7 @@ import {inputValidationMiddleware} from "../middlewares/input-validation-middlew
 import {authMiddleware} from "../middlewares/auth-middleware";
 import {fieldsValidationMiddleware} from "../middlewares/fields-validation-middleware";
 import {postsRepository} from "../repositories/posts-db-repository";
+import {bloggersRepository} from "../repositories/bloggers-db-repository";
 
 export const bloggersRouter = Router({})
 
@@ -71,7 +72,7 @@ bloggersRouter.delete('/:bloggerId',
 
 bloggersRouter.get('/:bloggerId/posts', async (req: Request, res: Response) => {
 
-        const blogger = await postsRepository.isBlogger(+req.params.bloggerId);
+        const blogger = await bloggersRepository.isBlogger(+req.params.bloggerId);
         if (!blogger) {
             res.status(404).send({errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]});
         } else {
@@ -85,7 +86,7 @@ bloggersRouter.post('/:bloggerId/posts',
     authMiddleware,
 
     async (req: Request, res: Response, next: NextFunction) => {
-        const blogger = await postsRepository.isBlogger(+req.params.bloggerId);
+        const blogger = await bloggersRepository.isBlogger(+req.params.bloggerId);
         if (!blogger) {
             res.status(404).send({errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]});
         } else {

@@ -71,6 +71,18 @@ export const bloggersRepository = {
         // @ts-ignore
         return result
 
+    },
+
+    async isBlogger (bloggerId: number) {
+
+        const blogger: BloggersType | null = await bloggersCollection.findOne({id: bloggerId}, {projection: {_id: 0}})
+        return blogger;
+
+        if (blogger) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
