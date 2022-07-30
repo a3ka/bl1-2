@@ -84,16 +84,6 @@ bloggersRouter.get('/:bloggerId/posts', async (req: Request, res: Response) => {
 
 bloggersRouter.post('/:bloggerId/posts',
     authMiddleware,
-
-    async (req: Request, res: Response, next: NextFunction) => {
-        const blogger = await bloggersRepository.isBlogger(+req.params.bloggerId);
-        if (!blogger) {
-            res.status(404).send({errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]});
-        } else {
-            next()
-        }
-    },
-
     fieldsValidationMiddleware.titleValidation,
     fieldsValidationMiddleware.shortDescriptionValidation,
     fieldsValidationMiddleware.contentValidation,
@@ -101,13 +91,22 @@ bloggersRouter.post('/:bloggerId/posts',
 
     async (req: Request, res: Response) => {
 
-        const newPost = await bloggersService.createPostByBloggerId(+req.params.bloggerId, req.body.title, req.body.shortDescription, req.body.content)
-
-        if (newPost) {
-            res.status(201).send(newPost)
+        const blogger = await bloggersRepository.isBlogger(+req.params.bloggerId);
+        if (!blogger) {
+            res.status(404).send({errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]});
         } else {
-            res.status(400).send(fieldsValidationMiddleware.bloggerIdErrorsMessage)
+            const newPost = await bloggersService.createPostByBloggerId(+req.params.bloggerId, req.body.title, req.body.shortDescription, req.body.content)
+
+            if (newPost) {
+                res.status(201).send(newPost)
+            } else {
+                res.status(400).send(fieldsValidationMiddleware.bloggerIdErrorsMessage)
+            }
         }
+
     })
+
+
+
 
 

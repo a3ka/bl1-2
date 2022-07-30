@@ -9,7 +9,7 @@ export const postsRepository = {
 
         const postsCount = await postCollection.count({})
         const pagesCount = Math.ceil(postsCount / pageSize)
-        const posts: PostType[] | PostType = await postCollection.find({}).toArray()
+        const posts: PostType[] | PostType = await postCollection.find({}).skip((pageNumber-1)*pageSize).limit(pageSize).toArray()
 
         const result = {
             pagesCount: pagesCount,
