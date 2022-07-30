@@ -71,11 +71,12 @@ bloggersRouter.delete('/:bloggerId',
 
 bloggersRouter.get('/:bloggerId/posts', async (req: Request, res: Response) => {
 
-        const posts = await bloggersService.getPostsByBloggerId(+req.params.bloggerId, req.body.pageNumber, req.body.pageSize);
-        if (posts) {
-            res.status(200).send(posts);
+        const blogger = await postsRepository.isBlogger(+req.params.bloggerId);
+        if (!blogger) {
+            res.status(404).send({errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]});
         } else {
-            res.send(404);
+            const posts = await bloggersService.getPostsByBloggerId(+req.params.bloggerId, req.body.pageNumber, req.body.pageSize);
+            res.status(200).send(posts);
         }
     }
 )
