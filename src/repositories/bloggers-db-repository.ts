@@ -12,11 +12,12 @@ export const bloggersRepository = {
 
     async getAllBloggers(pageNumber: number, pageSize: number, searchNameTerm: string | null): Promise<BloggersExtendedType | undefined | null> {
 
-        const bloggersCount = await bloggersCollection.count({})
-        const pagesCount = Math.ceil(bloggersCount / pageSize)
 
         if (searchNameTerm) {
             const bloggers = await bloggersCollection.find({name: {$regex: searchNameTerm}}, {projection: {_id: 0}}).skip((pageNumber - 1) * pageSize).limit(pageSize).toArray()
+
+            const bloggersCount = await bloggersCollection.count({name: {$regex: searchNameTerm}})
+            const pagesCount = Math.ceil(bloggersCount / pageSize)
 
             const result = {
                 pagesCount: pagesCount,
@@ -32,6 +33,9 @@ export const bloggersRepository = {
 
             // @ts-ignore
             const bloggers = await bloggersCollection.find({}, {projection: {_id: 0}}).skip((pageNumber - 1) * pageSize).limit(pageSize).toArray()
+
+            const bloggersCount = await bloggersCollection.count({})
+            const pagesCount = Math.ceil(bloggersCount / pageSize)
 
             const result = {
                 pagesCount: pagesCount,
