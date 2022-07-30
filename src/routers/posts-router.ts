@@ -35,7 +35,7 @@ postsRouter.post('/',
         if (newPost) {
             res.status(201).send(newPost)
         } else {
-            res.status(404).send(fieldsValidationMiddleware.bloggerIdErrorsMessage)
+            res.status(404).send({ errorsMessages: [{ message: "wrong blogerId", field: "bloggerId" }]})
         }
     })
 
