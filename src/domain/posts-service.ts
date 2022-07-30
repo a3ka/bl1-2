@@ -6,9 +6,9 @@ import {BloggersExtendedType, PostsOfBloggerType, PostType} from "../repositorie
 
 
 export const postsService = {
-    async getAllPosts (pageNumber: number = 1, pageSize:number = 10): Promise<{}> {
+    async getAllPosts (pageNumber: string = "1" || undefined || null, pageSize: string = "10" || undefined || null): Promise<{}> {
 
-        const postsDb = await postsRepository.getAllPosts(pageNumber, pageSize)
+        const postsDb = await postsRepository.getAllPosts(+pageNumber, +pageSize)
         // @ts-ignore
         const posts = {...postsDb}
 

@@ -21,7 +21,7 @@ export const postsRouter = Router({});
 
 postsRouter.get('/', async (req: Request, res: Response) => {
     // @ts-ignore
-    const posts = await postsService.getAllPosts(req.query.pageNumber, req.query.pageSize)
+    const posts = await postsService.getAllPosts(req.query.PageNumber, req.query.PageSize)
     res.status(200).send(posts);
 })
 

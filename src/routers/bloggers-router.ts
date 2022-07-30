@@ -79,7 +79,7 @@ bloggersRouter.get('/:bloggerId/posts', async (req: Request, res: Response) => {
             res.status(404).send({errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]});
         } else {
             // @ts-ignore
-            const posts = await bloggersService.getPostsByBloggerId(+req.params.bloggerId, req.query.pageNumber, req.query.pageSize);
+            const posts = await bloggersService.getPostsByBloggerId(+req.params.bloggerId, req.query.PageNumber, req.query.PageSize);
             res.status(200).send(posts);
         }
     }

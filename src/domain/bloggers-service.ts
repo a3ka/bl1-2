@@ -60,8 +60,8 @@ export const bloggersService = {
         return bloggersRepository.deleteBlogger(bloggerId)
     },
 
-    async getPostsByBloggerId(bloggerId: number, pageNumber: number = 1, pageSize:number = 10): Promise<PostsOfBloggerType | null> {
-        const postsDb = await bloggersRepository.getPostsByBloggerId(bloggerId, pageNumber, pageSize);
+    async getPostsByBloggerId(bloggerId: number, pageNumber: string = '1' || undefined || null, pageSize: string = '10' || undefined || null): Promise<PostsOfBloggerType | null> {
+        const postsDb = await bloggersRepository.getPostsByBloggerId(bloggerId, +pageNumber, +pageSize);
         // const posts = omit_Id(postsDb)
         return postsDb
     },
