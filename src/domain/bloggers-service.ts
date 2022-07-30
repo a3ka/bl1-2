@@ -28,9 +28,9 @@ function omit_Id(obj:any) {
 
 export const bloggersService = {
 
-    async getAllBloggers(pageNumber: number = 1 || undefined, pageSize:number = 10 || undefined): Promise<BloggersExtendedType | undefined | null> {
+    async getAllBloggers(pageNumber: string = '1' || undefined, pageSize:string = '10' || undefined): Promise<BloggersExtendedType | undefined | null> {
 
-        const bloggersDb = await bloggersRepository.getAllBloggers(pageNumber, pageSize)
+        const bloggersDb = await bloggersRepository.getAllBloggers(+pageNumber, +pageSize)
         // const bloggers = omit_Id(bloggersDb)
         return bloggersDb
     },
