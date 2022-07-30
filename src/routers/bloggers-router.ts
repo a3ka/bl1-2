@@ -14,8 +14,8 @@ export const bloggersRouter = Router({})
 
 bloggersRouter.get('/',
     async (req: Request, res: Response) => {
-        // @ts-ignore
-        const bloggers = await bloggersService.getAllBloggers(req.query.pageNumber, req.query.pageSize)
+
+        const bloggers = await bloggersService.getAllBloggers(Number(req.query.pageNumber), Number(req.query.pageSize))
         res.status(200).send(bloggers);
     }
 )

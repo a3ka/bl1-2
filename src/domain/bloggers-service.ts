@@ -28,7 +28,7 @@ function omit_Id(obj:any) {
 
 export const bloggersService = {
 
-    async getAllBloggers(pageNumber: number = 1, pageSize:number = 10): Promise<BloggersExtendedType | undefined | null> {
+    async getAllBloggers(pageNumber: number = 1 || undefined, pageSize:number = 10 || undefined): Promise<BloggersExtendedType | undefined | null> {
 
         const bloggersDb = await bloggersRepository.getAllBloggers(pageNumber, pageSize)
         // const bloggers = omit_Id(bloggersDb)
