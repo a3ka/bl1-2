@@ -1,6 +1,6 @@
 import {NextFunction, Request, Response} from "express";
 import {validationResult} from "express-validator";
-import {postsRepository} from "../repositories/posts-repository";
+import {postsRepository} from "../repositories/posts-db-repository";
 
 export const bloggerIdExistenceValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const blogger = postsRepository.isBlogger(req.body.bloggerId);
