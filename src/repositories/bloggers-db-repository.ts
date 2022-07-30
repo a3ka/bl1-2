@@ -8,27 +8,41 @@ import {
 } from "./db";
 
 
-
 export const bloggersRepository = {
 
-    async getAllBloggers(pageNumber: number, pageSize:number): Promise<BloggersExtendedType | undefined | null> {
+    async getAllBloggers(pageNumber: number, pageSize: number, searchNameTerm: string | null): Promise<BloggersExtendedType | undefined | null> {
 
         const bloggersCount = await bloggersCollection.count({})
         const pagesCount = Math.ceil(bloggersCount / pageSize)
-        // @ts-ignore
 
-        const bloggers = await bloggersCollection.find({}, {projection: {_id: 0}}).skip((pageNumber-1)*pageSize).limit(pageSize).toArray()
+        if (searchNameTerm) {
+            const bloggers = await bloggersCollection.find({name: {$regex: searchNameTerm}}, {projection: {_id: 0}}).skip((pageNumber - 1) * pageSize).limit(pageSize).toArray()
 
-        const result = {
-            pagesCount: pagesCount,
-            page: pageNumber,
-            pageSize,
-            totalCount: bloggersCount,
-            items: bloggers
+            const result = {
+                pagesCount: pagesCount,
+                page: pageNumber,
+                pageSize,
+                totalCount: bloggersCount,
+                items: bloggers
+            }
+
+            // @ts-ignore
+            return result
+        } else {
+
+            // @ts-ignore
+            const bloggers = await bloggersCollection.find({}, {projection: {_id: 0}}).skip((pageNumber - 1) * pageSize).limit(pageSize).toArray()
+
+            const result = {
+                pagesCount: pagesCount,
+                page: pageNumber,
+                pageSize,
+                totalCount: bloggersCount,
+                items: bloggers
+            }
+            // @ts-ignore
+            return result
         }
-
-        // @ts-ignore
-        return result
     },
 
     async createBlogger(newBlogger: BloggersType): Promise<BloggersType> {
@@ -58,7 +72,7 @@ export const bloggersRepository = {
 
         const postsCount = await postCollection.count({bloggerId})
         const pagesCount = Math.ceil(postsCount / pageSize)
-        const posts: PostType[] | PostType = await postCollection.find({bloggerId}, {projection: {_id: 0}}).skip((pageNumber-1)*pageSize).limit(pageSize).toArray()
+        const posts: PostType[] | PostType = await postCollection.find({bloggerId}, {projection: {_id: 0}}).skip((pageNumber - 1) * pageSize).limit(pageSize).toArray()
 
         const result = {
             pagesCount: pagesCount,
@@ -73,7 +87,7 @@ export const bloggersRepository = {
 
     },
 
-    async isBlogger (bloggerId: number) {
+    async isBlogger(bloggerId: number) {
 
         const blogger: BloggersType | null = await bloggersCollection.findOne({id: bloggerId}, {projection: {_id: 0}})
         return blogger;
