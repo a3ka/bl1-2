@@ -20,7 +20,8 @@ export const postsRouter = Router({});
 
 
 postsRouter.get('/', async (req: Request, res: Response) => {
-    const posts = await postsService.getAllPosts(req.body.pageNumber, req.body.pageSize)
+    // @ts-ignore
+    const posts = await postsService.getAllPosts(req.query.pageNumber, req.query.pageSize)
     res.status(200).send(posts);
 })
 

@@ -14,7 +14,8 @@ export const bloggersRouter = Router({})
 
 bloggersRouter.get('/',
     async (req: Request, res: Response) => {
-        const bloggers = await bloggersService.getAllBloggers(req.body.pageNumber, req.body.pageSize)
+        // @ts-ignore
+        const bloggers = await bloggersService.getAllBloggers(req.query.pageNumber, req.query.pageSize)
         res.status(200).send(bloggers);
     }
 )
@@ -76,7 +77,8 @@ bloggersRouter.get('/:bloggerId/posts', async (req: Request, res: Response) => {
         if (!blogger) {
             res.status(404).send({errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]});
         } else {
-            const posts = await bloggersService.getPostsByBloggerId(+req.params.bloggerId, req.body.pageNumber, req.body.pageSize);
+            // @ts-ignore
+            const posts = await bloggersService.getPostsByBloggerId(+req.params.bloggerId, req.query.pageNumber, req.query.pageSize);
             res.status(200).send(posts);
         }
     }
