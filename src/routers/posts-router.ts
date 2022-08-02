@@ -38,7 +38,8 @@ postsRouter.post('/',
         if (newPost) {
             res.status(201).send(newPost)
         } else {
-            res.status(404).send(fieldsValidationMiddleware.bloggerIdErrorsMessage)
+            // res.status(404).send(fieldsValidationMiddleware.bloggerIdErrorsMessage)
+            res.status(404).send({errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]})
         }
     })
 
@@ -55,7 +56,7 @@ postsRouter.put('/:postId',
 
         const blogger = await bloggersRepository.isBlogger(+req.body.bloggerId);
         if (!blogger) {
-            res.status(404).send(fieldsValidationMiddleware.bloggerIdErrorsMessage);
+            res.status(404).send({errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]});
             return
         }
 

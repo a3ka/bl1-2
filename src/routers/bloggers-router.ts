@@ -103,7 +103,7 @@ bloggersRouter.post('/:bloggerId/posts',
             if (newPost) {
                 res.status(201).send(newPost)
             } else {
-                res.status(400).send(fieldsValidationMiddleware.bloggerIdErrorsMessage)
+                res.status(400).send({errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]})
             }
         }
 

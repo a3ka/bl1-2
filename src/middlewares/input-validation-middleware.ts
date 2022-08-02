@@ -6,40 +6,6 @@ export const inputValidationMiddleware = (req: Request, res: Response, next: Nex
 
     const errorsMessages = errors.array({onlyFirstError: true}).map((error) => ({message: error.msg, field: error.param}))
 
-    // @ts-ignore
-
-    // const [...params] = () => {
-    //     for (let i = 0; i < errorsMessages.length; i++) {
-    //         return Object.keys (errorsMessages[i])
-    //     }
-    // }
-
-
-
-
-
-
-
-    // for (let i = 0; i < errorsMessages.length; i++) {
-    //     Object.keys(errorsMessages[i]).forEach(key => {
-    //         // @ts-ignore
-    //         let value = errorsMessages[i][key];
-    //
-    //         errorsMessages[i].push({})
-    //
-    //         if(key === 'msg') {
-    //             errorsMessages[0].message = value
-    //         } else if (key === 'param') {
-    //             errorsMessages[0].field = value
-    //         } else {
-    //             return
-    //         }
-    //
-    //         // console.log(`${key}: ${value}`);
-    //     });
-    // }
-
-
 
     const getErrors = (errorsMessages: any) => {
         if(errorsMessages.length > 1) {

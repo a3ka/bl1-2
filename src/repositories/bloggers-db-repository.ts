@@ -26,7 +26,6 @@ export const bloggersRepository = {
                 totalCount: bloggersCount,
                 items: bloggers
             }
-
             // @ts-ignore
             return result
         } else {
