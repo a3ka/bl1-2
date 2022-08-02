@@ -35,12 +35,13 @@ postsRouter.post('/',
     async (req: Request, res: Response) => {
         const newPost = await postsService.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.bloggerId)
 
-        if (newPost) {
-            res.status(201).send(newPost)
-        } else {
-            // res.status(404).send(fieldsValidationMiddleware.bloggerIdErrorsMessage)
-            res.status(404).send({errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]})
+        if (!newPost) {
+            res.status(400).send(
+                {errorsMessages: [{message: "Problem with a bloggerId field", field: "bloggerId"}]})
+            return
         }
+
+        res.status(201).send(newPost)
     })
 
 postsRouter.put('/:postId',
